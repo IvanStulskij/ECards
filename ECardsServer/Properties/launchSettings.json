@@ -1,0 +1,10 @@
+﻿{
+  "profiles": {
+    "ECardsServer": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
