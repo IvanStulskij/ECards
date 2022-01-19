@@ -1,12 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Windows;
-using System.Linq;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using ECardsLibFramework.Entities;
+﻿using System.Windows;
 
 namespace ECards
 {

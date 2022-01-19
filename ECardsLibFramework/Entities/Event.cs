@@ -14,6 +14,15 @@ namespace ECardsLibFramework.Entities
         private string _picturePath;
         private string _name;
 
+        public Event(string name, DateTime beginDate, DateTime endDate, string shortDescription, string picturePath)
+        {
+            Name = name;
+            BeginDate = beginDate;
+            EndDate = endDate;
+            PicturePath = picturePath;
+            ShortDescription = shortDescription;
+        }
+
         public string Name
         {
             get

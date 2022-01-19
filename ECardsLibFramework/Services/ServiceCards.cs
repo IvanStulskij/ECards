@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel;
+using System.Linq;
 
 namespace ECardsLibFramework.Services
 {
@@ -10,29 +11,61 @@ namespace ECardsLibFramework.Services
     public class ServiceCards : IServiceCards
     {
         private readonly string _path;
+        private HashSet<Event> _events = new HashSet<Event>();
+        
         public ServiceCards(string path)
         {
             _path = path;
+            _events = GetEvents();
         }
 
-        public int Connect()
+        public HashSet<Event> GetEvents()
         {
-            return 0;
+            return JsonConvert.DeserializeObject<HashSet<Event>>(File.ReadAllText(_path));
         }
 
-        public void Disconnect()
+        public void Remove(string removingEventName)
         {
-            
+            Event eventToRemove = _events
+                .FirstOrDefault(hisoryEvent => hisoryEvent.Name == removingEventName);
+
+            if (_events.Remove(eventToRemove))
+            {
+                WriteInJson();
+            }
         }
 
-        public IEnumerable<Event> GetEvents()
+        public void Remove(IEnumerable<string> eventsToRemove)
         {
-            return JsonConvert.DeserializeObject<IEnumerable<Event>>(File.ReadAllText(_path));
+            IEnumerable<Event> events = _events;
+            bool removedItemsCount = false;
+
+            foreach (var eventToRemove in eventsToRemove)
+            {
+                removedItemsCount = _events.Remove(_events.FirstOrDefault(jsonEvent => jsonEvent.Name == eventToRemove));
+            }
+
+            if (removedItemsCount)
+            {
+                WriteInJson();
+            }
         }
 
-        public void Update()
+        public void Add(Event historicalEvent)
         {
-            throw new System.NotImplementedException();
+            _events.Add(historicalEvent);
+            WriteInJson();
+        }
+
+        public void Update(string eventNameToUpdate, Event newData)
+        {
+            Remove(eventNameToUpdate);
+            Add(newData);
+        }
+
+        private void WriteInJson()
+        {
+            File.WriteAllText(_path, JsonConvert.SerializeObject(_events));
         }
     }
 }

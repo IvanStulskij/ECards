@@ -10,10 +10,12 @@ namespace ECardsLibFramework.Services
     {
 
         [OperationContract]
-        IEnumerable<Event> GetEvents();
+        void Update(string eventToUpdate, Event newData);
+        
+        [OperationContract]
+        void Remove(string removingEventName);
 
         [OperationContract]
-        void Update(Event historicalEvent);
-        [OperationContract]
+        void Remove(IEnumerable<string> historicalEvents);
     }
 }
