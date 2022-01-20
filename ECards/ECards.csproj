@@ -73,6 +73,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModels\AddingViewModel.cs" />
     <Compile Include="ViewModels\ECardsViewModel.cs" />
     <Compile Include="ViewModels\ViewModel.cs" />
     <Page Include="MainWindow.xaml">

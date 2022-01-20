@@ -1,35 +1,16 @@
 ﻿using ECardsLibFramework.Entities;
 using ECardsLibFramework.Services;
 using GalaSoft.MvvmLight.Command;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace ECards.ViewModels
 {
-    public class ECardsViewModel : INotifyPropertyChanged
+    public class ECardsViewModel : ViewModel
     {
         private ServiceCards _serviceCards = new ServiceCards(@"D:\for learning\Портфолио\Texode\Data\Events.json");
-        private ObservableCollection<EventView> _events;
-        private RelayCommand<string> _remove;
-        //private 
-        private EventView _selectedItem;
-        private string _shortDescription;
-        
-        public event PropertyChangedEventHandler PropertyChanged;
 
-        public void OnPropertyChanged([CallerMemberName] string callerName = "")
-        {
-            
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(callerName));
-            
-        }
+        private ObservableCollection<EventView> _events;
 
         public ObservableCollection<EventView> Events
         {
@@ -39,11 +20,8 @@ namespace ECards.ViewModels
                 {
                     _events = new ObservableCollection<EventView>();
                 }
-                else
-                {
-                    _events = new ObservableCollection<EventView>(Event.ConvertToView(_serviceCards.GetEvents()));
-                }
-                return _events;
+
+                return new ObservableCollection<EventView>(Event.ConvertToView(_serviceCards.GetEvents()));
             }
 
             set
@@ -53,6 +31,7 @@ namespace ECards.ViewModels
             }
         }
 
+        private EventView _selectedItem;
         public EventView SelectedItem 
         {
             get
@@ -63,27 +42,56 @@ namespace ECards.ViewModels
             {
                 _selectedItem = value;
                 OnPropertyChanged(nameof(SelectedItem));
+                ShortDescription = _serviceCards.GetDescription(SelectedItem.Name);
+                ImagePath = _serviceCards.GetImage(SelectedItem.Name, @"D:\for learning\Портфолио\Texode\Data");
             }
         }
 
-        public string ShortDescription
+        private IEnumerable<EventView> _selectedItems;
+        public IEnumerable<EventView> SelectedItems
         {
             get
             {
-                if (SelectedItem == null)
-                {
-                    return string.Empty;
-                }
-                
-                return _serviceCards.GetDescription(SelectedItem.Name);
+                return _selectedItems;
             }
 
             set
             {
+                _selectedItems = value;
+                OnPropertyChanged(nameof(SelectedItems));
+            }
+        }
+        
+        private string _shortDescription;
+        public string ShortDescription
+        {
+            get
+            {
+                return _shortDescription;
+            }
+            set
+            {
+                _shortDescription = value;
                 OnPropertyChanged(nameof(ShortDescription));
             }
         }
 
+        private string _imagePath;
+        public string ImagePath
+        {
+            get
+            {
+                return _imagePath;
+            }
+
+            set
+            {
+                _imagePath = value;
+                OnPropertyChanged(nameof(ImagePath));
+            }
+        }
+
+        private RelayCommand<string> _remove;
         public RelayCommand<string> Remove
         {
             get
@@ -103,7 +111,7 @@ namespace ECards.ViewModels
 
             set
             {
-                OnPropertyChanged(nameof(Remove));
+                OnPropertyChanged(nameof(Events));
             }
         }
     }

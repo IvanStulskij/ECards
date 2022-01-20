@@ -1,1 +1,7 @@
-[{"Name":"French revolution","BeginDate":"1789-01-01T00:00:00","EndDate":"1799-01-01T00:00:00","PicturePath":"images/DayD.jpg","ShortDescription":"That operation was the start of Overlord"},{"Name":"Neptune Operation","BeginDate":"1939-09-01T00:00:00","EndDate":"1945-09-02T00:00:00","PicturePath":"images/DayD.jpg","ShortDescription":"Overlord"}]
+[{"Name":"Neptune Operation","BeginDate":"1939-09-01T00:00:00","EndDate":"1945-09-02T00:00:00","PicturePath":"images/DayD.jpg","ShortDescription":"That operation was the start of Overlord"},{
+    "Name": "French revolution",
+    "BeginDate": "1789-01-01",
+    "EndDate": "1799-01-01",
+    "ShortDescription": "That operation was the start of Overlord",
+    "PicturePath": "images/DayD.jpg"
+  }]

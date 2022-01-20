@@ -11,7 +11,7 @@ namespace ECardsLibFramework.Services
     public class ServiceCards : IServiceCards
     {
         private readonly string _path;
-        private HashSet<Event> _events = new HashSet<Event>();
+        private readonly HashSet<Event> _events = new HashSet<Event>();
         
         public ServiceCards(string path)
         {
@@ -66,6 +66,11 @@ namespace ECardsLibFramework.Services
         public string GetDescription(string name)
         {
             return _events.FirstOrDefault(historyEvent => historyEvent.Name == name).ShortDescription;
+        }
+
+        public string GetImage(string name, string directoryName)
+        {
+            return directoryName + @"\" + _events.FirstOrDefault(historyEvent => historyEvent.Name == name).PicturePath;
         }
 
         private void WriteInJson()

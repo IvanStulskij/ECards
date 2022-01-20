@@ -6,25 +6,32 @@
         xmlns:local="clr-namespace:ECards"
         xmlns:vm="clr-namespace:ECards.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="572" Width="1239">
     <Window.DataContext>
         <vm:ECardsViewModel></vm:ECardsViewModel>
     </Window.DataContext>
     <Grid>
         <DataGrid
             Name="Events"
-            ItemsSource="{Binding Events}"
+            ItemsSource="{Binding Events, UpdateSourceTrigger=PropertyChanged}"
             SelectedItem="{Binding SelectedItem}"
             HorizontalAlignment="Left" 
             Height="235"
             Margin="10,10,0,0"
             VerticalAlignment="Top"
             Width="260"/>
-        <Image x:Name="EventImage" HorizontalAlignment="Left" Height="235" Margin="365,10,0,0" VerticalAlignment="Top" Width="320"/>
-        <RichTextBox HorizontalAlignment="Left" Height="109" Margin="10,300,0,0" VerticalAlignment="Top" Width="335">
+        <Image
+            Source="{Binding ImagePath, UpdateSourceTrigger=PropertyChanged}"
+            x:Name="EventImage" 
+            HorizontalAlignment="Left"
+            Height="290"
+            Margin="275,10,0,0"
+            VerticalAlignment="Top"
+            Width="425"/>
+        <RichTextBox IsReadOnly="True" HorizontalAlignment="Left" Height="196" Margin="10,335,0,0" VerticalAlignment="Top" Width="365">
             <FlowDocument>
                 <Paragraph>
-                    <Run Text="{Binding ShortDescription}"/>
+                    <Run Text="{Binding ShortDescription, UpdateSourceTrigger=PropertyChanged}"/>
                 </Paragraph>
             </FlowDocument>
         </RichTextBox>
@@ -36,6 +43,32 @@
             Margin="10,250,0,0"
             VerticalAlignment="Top" Width="75">
         </Button>
-
+        
+        <Grid x:Name="AddingMenu">
+            <TextBox HorizontalAlignment="Left" Height="23" Margin="960,7,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+            <DatePicker Name="BeginDatePicker" HorizontalAlignment="Left" Margin="960,35,0,0" VerticalAlignment="Top" Width="120"/>
+            <DatePicker Name="EndDatePicker" HorizontalAlignment="Left" Margin="960,64,0,0" VerticalAlignment="Top" Width="120"/>
+            <RichTextBox HorizontalAlignment="Left" Height="80" Margin="960,93,0,0" VerticalAlignment="Top" Width="250">
+                <FlowDocument>
+                    <Paragraph>
+                        <Run Text=""/>
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+            <TextBlock HorizontalAlignment="Left" Margin="876,7,0,0" TextWrapping="Wrap" Text="Название" VerticalAlignment="Top"/>
+            <TextBlock HorizontalAlignment="Left" Margin="876,35,0,0" TextWrapping="Wrap" Text="Начало" VerticalAlignment="Top"/>
+            <TextBlock HorizontalAlignment="Left" Margin="876,64,0,0" TextWrapping="Wrap" Text="Конец" VerticalAlignment="Top"/>
+            <TextBlock HorizontalAlignment="Left" Margin="876,93,0,0" TextWrapping="Wrap" Text="Доп. инфо" VerticalAlignment="Top"/>
+            <Button Content="Add" HorizontalAlignment="Left" Margin="1085,10,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+            <Image
+            Source="{Binding ImagePath, UpdateSourceTrigger=PropertyChanged}"
+            x:Name="EventImage" 
+            HorizontalAlignment="Left"
+            Height="290"
+            Margin="275,10,0,0"
+            VerticalAlignment="Top"
+            Width="425"/>
+        </Grid>
     </Grid>
+    
 </Window>
