@@ -5,27 +5,33 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ECards"
         xmlns:vm="clr-namespace:ECards.ViewModels"
+        xmlns:converters="clr-namespace:ECards.Converters"
         mc:Ignorable="d"
         Title="MainWindow" Height="572" Width="1239">
     <Window.DataContext>
         <vm:ECardsViewModel></vm:ECardsViewModel>
     </Window.DataContext>
+    <Window.Resources>
+        <ResourceDictionary>
+            <converters:EventConverter x:Key="EventConverter"></converters:EventConverter>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
         <DataGrid
             Name="Events"
-            ItemsSource="{Binding Events, UpdateSourceTrigger=PropertyChanged}"
+            ItemsSource="{Binding Events, UpdateSourceTrigger=Explicit}"
             SelectedItem="{Binding SelectedItem}"
             HorizontalAlignment="Left" 
             Height="235"
             Margin="10,10,0,0"
             VerticalAlignment="Top"
-            Width="260"/>
+            Width="365"/>
         <Image
             Source="{Binding ImagePath, UpdateSourceTrigger=PropertyChanged}"
             x:Name="EventImage" 
             HorizontalAlignment="Left"
             Height="290"
-            Margin="275,10,0,0"
+            Margin="400,10,0,0"
             VerticalAlignment="Top"
             Width="425"/>
         <RichTextBox IsReadOnly="True" HorizontalAlignment="Left" Height="196" Margin="10,335,0,0" VerticalAlignment="Top" Width="365">
@@ -45,13 +51,13 @@
         </Button>
         
         <Grid x:Name="AddingMenu">
-            <TextBox HorizontalAlignment="Left" Height="23" Margin="960,7,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
-            <DatePicker Name="BeginDatePicker" HorizontalAlignment="Left" Margin="960,35,0,0" VerticalAlignment="Top" Width="120"/>
-            <DatePicker Name="EndDatePicker" HorizontalAlignment="Left" Margin="960,64,0,0" VerticalAlignment="Top" Width="120"/>
+            <TextBox Name="NewName" HorizontalAlignment="Left" Height="23" Margin="960,7,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+            <DatePicker Name="NewBegin" HorizontalAlignment="Left" Margin="960,35,0,0" VerticalAlignment="Top" Width="120"/>
+            <DatePicker Name="NewEnd" HorizontalAlignment="Left" Margin="960,64,0,0" VerticalAlignment="Top" Width="120"/>
             <RichTextBox HorizontalAlignment="Left" Height="80" Margin="960,93,0,0" VerticalAlignment="Top" Width="250">
                 <FlowDocument>
                     <Paragraph>
-                        <Run Text=""/>
+                        <Run Name="NewDescription" Text=""/>
                     </Paragraph>
                 </FlowDocument>
             </RichTextBox>
@@ -59,15 +65,39 @@
             <TextBlock HorizontalAlignment="Left" Margin="876,35,0,0" TextWrapping="Wrap" Text="Начало" VerticalAlignment="Top"/>
             <TextBlock HorizontalAlignment="Left" Margin="876,64,0,0" TextWrapping="Wrap" Text="Конец" VerticalAlignment="Top"/>
             <TextBlock HorizontalAlignment="Left" Margin="876,93,0,0" TextWrapping="Wrap" Text="Доп. инфо" VerticalAlignment="Top"/>
-            <Button Content="Add" HorizontalAlignment="Left" Margin="1085,10,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
-            <Image
-            Source="{Binding ImagePath, UpdateSourceTrigger=PropertyChanged}"
-            x:Name="EventImage" 
-            HorizontalAlignment="Left"
-            Height="290"
-            Margin="275,10,0,0"
-            VerticalAlignment="Top"
-            Width="425"/>
+            <Button
+                Command="{Binding AddingViewModel.Add}"
+                Content="Add" 
+                HorizontalAlignment="Left"
+                Margin="1085,10,0,0"
+                VerticalAlignment="Top"
+                Width="75">
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{StaticResource EventConverter}">
+                        <Binding Path="Text" ElementName="NewName"></Binding>
+                        <Binding Path="SelectedDate" ElementName="NewBegin"></Binding>
+                        <Binding Path="SelectedDate" ElementName="NewEnd"></Binding>
+                        <Binding Path="Text" ElementName="NewDescription"></Binding>
+                        <Binding Path="Text" ElementName="NewImagePath"></Binding>
+                    </MultiBinding>
+                </Button.CommandParameter>
+            </Button>
+            <Button
+                Command="{Binding AddingViewModel.FindImage}"
+                Content="Find image" 
+                HorizontalAlignment="Left" 
+                Margin="876,180,0,0" 
+                VerticalAlignment="Top" 
+                Width="75"/>
+            <TextBox 
+                x:Name="NewImagePath"
+                HorizontalAlignment="Left" 
+                Height="55" 
+                Margin="960,180,0,0" 
+                TextWrapping="Wrap" 
+                Text="{Binding AddingViewModel.ImagePath}" 
+                VerticalAlignment="Top"
+                Width="250"/>
         </Grid>
     </Grid>
     

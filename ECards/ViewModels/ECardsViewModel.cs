@@ -12,6 +12,8 @@ namespace ECards.ViewModels
 
         private ObservableCollection<EventView> _events;
 
+        public AddingViewModel AddingViewModel { get; set; } = new AddingViewModel();
+
         public ObservableCollection<EventView> Events
         {
             get

@@ -6,9 +6,12 @@ namespace ECardsLibFramework.Entities
     {
         public EventView(Event historicalEvent)
         {
-            Name = historicalEvent.Name;
-            BeginDate = historicalEvent.BeginDate;
-            EndDate = historicalEvent.EndDate;
+            if (historicalEvent != null)
+            {
+                Name = historicalEvent.Name;
+                BeginDate = historicalEvent.BeginDate;
+                EndDate = historicalEvent.EndDate;
+            }
         }
 
         public string Name { get; private set; }

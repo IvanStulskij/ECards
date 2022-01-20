@@ -73,6 +73,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\EventConverter.cs" />
     <Compile Include="ViewModels\AddingViewModel.cs" />
     <Compile Include="ViewModels\ECardsViewModel.cs" />
     <Compile Include="ViewModels\ViewModel.cs" />
