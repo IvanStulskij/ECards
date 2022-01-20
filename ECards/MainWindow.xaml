@@ -119,38 +119,66 @@
                 VerticalAlignment="Top"
                 Width="250"/>
             <Grid x:Name="UpdateMenu">
-                <TextBlock HorizontalAlignment="Left" Margin="563,260,0,0" TextWrapping="Wrap" Text="Название" VerticalAlignment="Top"/>
+                <TextBlock HorizontalAlignment="Left" Margin="880,258,0,0" TextWrapping="Wrap" Text="Название" VerticalAlignment="Top"/>
                 <TextBox
+                    Text="{Binding SelectedItemAsEvent.Name}"
                     Name="UpdatedName"
                     HorizontalAlignment="Left" 
-                    Height="25" Margin="655,260,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="250"/>
-                <TextBlock HorizontalAlignment="Left" Margin="563,305,0,0" TextWrapping="Wrap" Text="Начало" VerticalAlignment="Top"/>
-                <DatePicker 
+                    Height="25" Margin="972,258,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="250"/>
+                <TextBlock HorizontalAlignment="Left" Margin="880,303,0,0" TextWrapping="Wrap" Text="Начало" VerticalAlignment="Top"/>
+                <DatePicker
+                    SelectedDate="{Binding SelectedItemAsEvent.BeginDate}"
                     Name="UpdatedBegin"
                     HorizontalAlignment="Left"
-                    Margin="655,305,0,0" 
+                    Margin="972,303,0,0" 
                     VerticalAlignment="Top"
                     Width="120"/>
-                <TextBlock HorizontalAlignment="Left" Margin="563,351,0,0" TextWrapping="Wrap" Text="Конец" VerticalAlignment="Top"/>
+                <TextBlock HorizontalAlignment="Left" Margin="880,349,0,0" TextWrapping="Wrap" Text="Конец" VerticalAlignment="Top"/>
                 <DatePicker
+                    SelectedDate="{Binding SelectedItemAsEvent.EndDate}"
                     Name="UpdatedEnd"
                     HorizontalAlignment="Left" 
-                    Margin="655,351,0,0" 
+                    Margin="972,349,0,0" 
                     VerticalAlignment="Top" 
                     Width="120"/>
-                <TextBlock HorizontalAlignment="Left" Margin="563,390,0,0" TextWrapping="Wrap" Text="Дополнительно" VerticalAlignment="Top"/>
-                <RichTextBox HorizontalAlignment="Left" Height="80" Margin="655,390,0,0" VerticalAlignment="Top" Width="250">
+                <TextBlock HorizontalAlignment="Left" Margin="880,388,0,0" TextWrapping="Wrap" Text="Дополнительно" VerticalAlignment="Top"/>
+                <RichTextBox HorizontalAlignment="Left" Height="80" Margin="972,388,0,0" VerticalAlignment="Top" Width="250">
                     <FlowDocument>
                         <Paragraph>
-                            <Run Name="UpdatedDescription" Text="{Binding AddingViewModel.ShortDescription}"/>
+                            <Run Name="UpdatedDescription" Text="{Binding ShortDescription}"/>
                         </Paragraph>
                     </FlowDocument>
                 </RichTextBox>
-                <TextBlock HorizontalAlignment="Left" Margin="563,492,0,0" TextWrapping="Wrap" Text="Изображение" VerticalAlignment="Top"/>
+                <TextBlock HorizontalAlignment="Left" Margin="880,490,0,0" TextWrapping="Wrap" Text="Изображение" VerticalAlignment="Top"/>
                 <TextBox
+                    Text="{Binding ImagePath}"
                     Name="UpdatedImagePath"
                     HorizontalAlignment="Left" 
-                    Height="39" Margin="655,492,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="250"/>
+                    Height="39" Margin="972,490,0,0" 
+                    TextWrapping="Wrap" 
+                    VerticalAlignment="Top" Width="250"/>
+                <Button
+                    Command="{Binding Update}"
+                    Content="Update" 
+                    HorizontalAlignment="Left"
+                    Margin="1106,334,0,0" 
+                    VerticalAlignment="Top" Width="75">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource EventConverter}">
+                            <Binding Path="Text" ElementName="UpdatedName"></Binding>
+                            <Binding Path="SelectedDate" ElementName="UpdatedBegin"></Binding>
+                            <Binding Path="SelectedDate" ElementName="UpdatedEnd"></Binding>
+                            <Binding Path="Text" ElementName="UpdatedDescription"></Binding>
+                            <Binding Path="Text" ElementName="UpdatedImagePath"></Binding>
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+                <Button
+                    Command="{Binding UpdateViewModel.FindImage}"
+                    Content="Find image" 
+                    HorizontalAlignment="Left"
+                    Margin="800,490,0,0" 
+                    VerticalAlignment="Top" Width="75"/>
             </Grid>
         </Grid>
     </Grid>

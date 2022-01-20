@@ -72,6 +72,16 @@ namespace ECardsLibFramework.Services
         {
             return directoryName + @"\" + _events.FirstOrDefault(historyEvent => historyEvent.Name == name).PicturePath;
         }
+        public Event ConvertToEvent(EventView view)
+        {
+            if (view == null)
+            {
+                return null;
+            }
+
+            return _events.Where(historyEvent => historyEvent.Name == view.Name)
+                .FirstOrDefault();
+        }
 
         private void WriteInJson()
         {

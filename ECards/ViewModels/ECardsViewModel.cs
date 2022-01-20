@@ -1,19 +1,20 @@
-﻿using ECardsLibFramework.Entities;
+﻿using System;
+using ECardsLibFramework.Entities;
 using ECardsLibFramework.Services;
 using GalaSoft.MvvmLight.Command;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Windows;
 
 namespace ECards.ViewModels
 {
-    public class ECardsViewModel : ViewModel
+    public class ECardsViewModel : DataViewModel
     {
         private ServiceCards _serviceCards = new ServiceCards(@"D:\for learning\Портфолио\Texode\Data\Events.json");
 
         private ObservableCollection<EventView> _events;
 
         public AddingViewModel AddingViewModel { get; set; } = new AddingViewModel();
+        public UpdateViewModel UpdateViewModel { get; set; } = new UpdateViewModel();
 
         public ObservableCollection<EventView> Events
         {
@@ -54,7 +55,21 @@ namespace ECards.ViewModels
                 {
                     ShortDescription = _serviceCards.GetDescription(SelectedItem.Name);
                     ImagePath = _serviceCards.GetImage(SelectedItem.Name, @"D:\for learning\Портфолио\Texode\Data");
+                    SelectedItemAsEvent = _serviceCards.ConvertToEvent(SelectedItem);
                 }
+            }
+        }
+        private Event _selectedItemAsEvent;
+        public Event SelectedItemAsEvent
+        {
+            get
+            {
+                return _selectedItemAsEvent;
+            }
+            set
+            {
+                _selectedItemAsEvent = value;
+                OnPropertyChanged(nameof(SelectedItemAsEvent));
             }
         }
 
@@ -72,33 +87,28 @@ namespace ECards.ViewModels
                 OnPropertyChanged(nameof(SelectedItems));
             }
         }
-        
-        private string _shortDescription;
-        public string ShortDescription
-        {
-            get
-            {
-                return _shortDescription;
-            }
-            set
-            {
-                _shortDescription = value;
-                OnPropertyChanged(nameof(ShortDescription));
-            }
-        }
 
-        private string _imagePath;
-        public string ImagePath
+        private RelayCommand<Tuple<string, DateTime, DateTime, string, string>> _update;
+        public RelayCommand<Tuple<string, DateTime, DateTime, string, string>> Update
         {
             get
             {
-                return _imagePath;
+                if (_update == null)
+                {
+                    return new RelayCommand<Tuple<string, DateTime, DateTime, string, string>>(dataToAdd =>
+                    {
+                        _serviceCards.Update(SelectedItem.Name,
+                            new Event(dataToAdd.Item1, dataToAdd.Item2, dataToAdd.Item3, dataToAdd.Item4, dataToAdd.Item5));
+                    });
+                }
+
+                return _update;
             }
 
             set
             {
-                _imagePath = value;
-                OnPropertyChanged(nameof(ImagePath));
+                _update = value;
+                OnPropertyChanged(nameof(Update));
             }
         }
 

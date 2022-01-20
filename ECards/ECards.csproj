@@ -74,8 +74,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\EventConverter.cs" />
+    <Compile Include="GlobalConstants\Pathes.cs" />
     <Compile Include="ViewModels\AddingViewModel.cs" />
+    <Compile Include="ViewModels\DataViewModel.cs" />
     <Compile Include="ViewModels\ECardsViewModel.cs" />
+    <Compile Include="ViewModels\UpdateViewModel.cs" />
     <Compile Include="ViewModels\ViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
