@@ -4,14 +4,25 @@ using ECardsLibFramework.Services;
 using GalaSoft.MvvmLight.Command;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
+using Microsoft.Win32;
 
 namespace ECards.ViewModels
 {
     public class ECardsViewModel : DataViewModel
     {
-        private ServiceCards _serviceCards = new ServiceCards(@"D:\for learning\Портфолио\Texode\Data\Events.json");
-
+        private ServiceCards _serviceCards;
+        private readonly string _jsonFile;
         private ObservableCollection<EventView> _events;
+
+        public ECardsViewModel()
+        {
+            var openDialog = new OpenFileDialog();
+            openDialog.ShowDialog();
+            openDialog.Title = "Choose JSON";
+            _jsonFile = openDialog.FileName;
+            _serviceCards = new ServiceCards(_jsonFile);
+        }
 
         public AddingViewModel AddingViewModel { get; set; } = new AddingViewModel();
         public UpdateViewModel UpdateViewModel { get; set; } = new UpdateViewModel();
@@ -54,7 +65,7 @@ namespace ECards.ViewModels
                 if (SelectedItem != null)
                 {
                     ShortDescription = _serviceCards.GetDescription(SelectedItem.Name);
-                    ImagePath = _serviceCards.GetImage(SelectedItem.Name, @"D:\for learning\Портфолио\Texode\Data");
+                    ImagePath = _serviceCards.GetImage(SelectedItem.Name, Path.GetDirectoryName(_jsonFile));
                     SelectedItemAsEvent = _serviceCards.ConvertToEvent(SelectedItem);
                 }
             }
@@ -99,6 +110,7 @@ namespace ECards.ViewModels
                     {
                         _serviceCards.Update(SelectedItem.Name,
                             new Event(dataToAdd.Item1, dataToAdd.Item2, dataToAdd.Item3, dataToAdd.Item4, dataToAdd.Item5));
+                        Events = new ObservableCollection<EventView>(Event.ConvertToView(_serviceCards.GetEvents()));
                     });
                 }
 
