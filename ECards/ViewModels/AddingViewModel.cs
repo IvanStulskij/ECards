@@ -92,7 +92,7 @@ namespace ECards.ViewModels
                     return new RelayCommand(delegate ()
                     {
                         var imageDialog = new ImageDialog();
-                        ImagePath = imageDialog.SearchImage().Replace(Directory, "").Replace(@"\", "/");
+                        ImagePath = imageDialog.SearchImage(Directory);
                     });
                 }
 
@@ -116,6 +116,12 @@ namespace ECards.ViewModels
                     {
                         _serviceCards.Add(new Event
                             (dataToAdd.Item1, dataToAdd.Item2, dataToAdd.Item3, dataToAdd.Item4, dataToAdd.Item5));
+
+                        Name = string.Empty;
+                        ShortDescription = string.Empty;
+                        ImagePath = string.Empty;
+                        BeginDate = DateTime.MinValue;
+                        EndDate = DateTime.MinValue;
                     });
                 }
 

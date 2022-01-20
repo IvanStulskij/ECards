@@ -19,13 +19,13 @@
     <Grid>
         <DataGrid
             Name="Events"
-            ItemsSource="{Binding Events, UpdateSourceTrigger=Explicit}"
+            ItemsSource="{Binding Events, UpdateSourceTrigger=PropertyChanged}"
             SelectedItem="{Binding SelectedItem}"
             HorizontalAlignment="Left" 
             Height="235"
             Margin="10,10,0,0"
             VerticalAlignment="Top"
-            Width="365"/>
+            Width="385"/>
         <Image
             Source="{Binding ImagePath, UpdateSourceTrigger=PropertyChanged}"
             x:Name="EventImage" 
@@ -49,15 +49,35 @@
             Margin="10,250,0,0"
             VerticalAlignment="Top" Width="75">
         </Button>
-        
+
         <Grid x:Name="AddingMenu">
-            <TextBox Name="NewName" HorizontalAlignment="Left" Height="23" Margin="960,7,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
-            <DatePicker Name="NewBegin" HorizontalAlignment="Left" Margin="960,35,0,0" VerticalAlignment="Top" Width="120"/>
-            <DatePicker Name="NewEnd" HorizontalAlignment="Left" Margin="960,64,0,0" VerticalAlignment="Top" Width="120"/>
+            <TextBox 
+                Name="NewName" 
+                HorizontalAlignment="Left"
+                Height="23"
+                Margin="960,7,0,0" 
+                TextWrapping="Wrap" 
+                Text="{Binding AddingViewModel.Name}" 
+                VerticalAlignment="Top"
+                Width="240"/>
+            <DatePicker 
+                DataContext="{Binding AddingViewModel.BeginDate}"
+                Name="NewBegin" 
+                HorizontalAlignment="Left" 
+                Margin="960,35,0,0"
+                VerticalAlignment="Top" 
+                Width="120"/>
+            <DatePicker
+                DataContext="{Binding AddingViewModel.EndDate}"
+                Name="NewEnd" 
+                HorizontalAlignment="Left"
+                Margin="960,64,0,0"
+                VerticalAlignment="Top"
+                Width="120"/>
             <RichTextBox HorizontalAlignment="Left" Height="80" Margin="960,93,0,0" VerticalAlignment="Top" Width="250">
                 <FlowDocument>
                     <Paragraph>
-                        <Run Name="NewDescription" Text=""/>
+                        <Run Name="NewDescription" Text="{Binding AddingViewModel.ShortDescription}"/>
                     </Paragraph>
                 </FlowDocument>
             </RichTextBox>
@@ -69,7 +89,7 @@
                 Command="{Binding AddingViewModel.Add}"
                 Content="Add" 
                 HorizontalAlignment="Left"
-                Margin="1085,10,0,0"
+                Margin="1085,68,0,0"
                 VerticalAlignment="Top"
                 Width="75">
                 <Button.CommandParameter>
@@ -98,7 +118,41 @@
                 Text="{Binding AddingViewModel.ImagePath}" 
                 VerticalAlignment="Top"
                 Width="250"/>
+            <Grid x:Name="UpdateMenu">
+                <TextBlock HorizontalAlignment="Left" Margin="563,260,0,0" TextWrapping="Wrap" Text="Название" VerticalAlignment="Top"/>
+                <TextBox
+                    Name="UpdatedName"
+                    HorizontalAlignment="Left" 
+                    Height="25" Margin="655,260,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="250"/>
+                <TextBlock HorizontalAlignment="Left" Margin="563,305,0,0" TextWrapping="Wrap" Text="Начало" VerticalAlignment="Top"/>
+                <DatePicker 
+                    Name="UpdatedBegin"
+                    HorizontalAlignment="Left"
+                    Margin="655,305,0,0" 
+                    VerticalAlignment="Top"
+                    Width="120"/>
+                <TextBlock HorizontalAlignment="Left" Margin="563,351,0,0" TextWrapping="Wrap" Text="Конец" VerticalAlignment="Top"/>
+                <DatePicker
+                    Name="UpdatedEnd"
+                    HorizontalAlignment="Left" 
+                    Margin="655,351,0,0" 
+                    VerticalAlignment="Top" 
+                    Width="120"/>
+                <TextBlock HorizontalAlignment="Left" Margin="563,390,0,0" TextWrapping="Wrap" Text="Дополнительно" VerticalAlignment="Top"/>
+                <RichTextBox HorizontalAlignment="Left" Height="80" Margin="655,390,0,0" VerticalAlignment="Top" Width="250">
+                    <FlowDocument>
+                        <Paragraph>
+                            <Run Name="UpdatedDescription" Text="{Binding AddingViewModel.ShortDescription}"/>
+                        </Paragraph>
+                    </FlowDocument>
+                </RichTextBox>
+                <TextBlock HorizontalAlignment="Left" Margin="563,492,0,0" TextWrapping="Wrap" Text="Изображение" VerticalAlignment="Top"/>
+                <TextBox
+                    Name="UpdatedImagePath"
+                    HorizontalAlignment="Left" 
+                    Height="39" Margin="655,492,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="250"/>
+            </Grid>
         </Grid>
     </Grid>
-    
+
 </Window>

@@ -1,6 +1,4 @@
-﻿using Microsoft.Win32;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 
 namespace ECards
 {
@@ -17,8 +15,7 @@ namespace ECards
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.ShowDialog();
+            
         }
     }
 }

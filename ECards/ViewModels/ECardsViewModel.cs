@@ -3,6 +3,7 @@ using ECardsLibFramework.Services;
 using GalaSoft.MvvmLight.Command;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace ECards.ViewModels
 {
@@ -20,10 +21,15 @@ namespace ECards.ViewModels
             {
                 if (_serviceCards.GetEvents() == null)
                 {
-                    _events = new ObservableCollection<EventView>();
+                    return new ObservableCollection<EventView>();
                 }
 
-                return new ObservableCollection<EventView>(Event.ConvertToView(_serviceCards.GetEvents()));
+                if (_events == null)
+                {
+                    return new ObservableCollection<EventView>(Event.ConvertToView(_serviceCards.GetEvents()));
+                }
+
+                return _events;
             }
 
             set
@@ -44,8 +50,11 @@ namespace ECards.ViewModels
             {
                 _selectedItem = value;
                 OnPropertyChanged(nameof(SelectedItem));
-                ShortDescription = _serviceCards.GetDescription(SelectedItem.Name);
-                ImagePath = _serviceCards.GetImage(SelectedItem.Name, @"D:\for learning\Портфолио\Texode\Data");
+                if (SelectedItem != null)
+                {
+                    ShortDescription = _serviceCards.GetDescription(SelectedItem.Name);
+                    ImagePath = _serviceCards.GetImage(SelectedItem.Name, @"D:\for learning\Портфолио\Texode\Data");
+                }
             }
         }
 
@@ -103,6 +112,7 @@ namespace ECards.ViewModels
                     return new RelayCommand<string>(name =>
                     {
                         _serviceCards.Remove(name);
+                        Events = new ObservableCollection<EventView>(Event.ConvertToView(_serviceCards.GetEvents()));
                     });
                 }
                 else
@@ -113,7 +123,8 @@ namespace ECards.ViewModels
 
             set
             {
-                OnPropertyChanged(nameof(Events));
+                _remove = value;
+                OnPropertyChanged(nameof(Remove));
             }
         }
     }

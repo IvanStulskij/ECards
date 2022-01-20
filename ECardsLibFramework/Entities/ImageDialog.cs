@@ -4,7 +4,7 @@ namespace ECardsLibFramework.Entities
 {
     public class ImageDialog
     {
-        public string SearchImage()
+        public string SearchImage(string directory)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.ShowDialog();
@@ -13,7 +13,7 @@ namespace ECardsLibFramework.Entities
             {
                 if (openFileDialog.FileName.EndsWith(".jpg") || openFileDialog.FileName.EndsWith(".png"))
                 {
-                    return openFileDialog.FileName;
+                    return openFileDialog.FileName.Replace(directory, "").Replace(@"\", "/");
                 }
             }
 
