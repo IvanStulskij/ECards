@@ -62,6 +62,11 @@ namespace ECardsLibFramework.Services
             Remove(eventNameToUpdate);
             Add(newData);
         }
+        
+        public string GetDescription(string name)
+        {
+            return _events.FirstOrDefault(historyEvent => historyEvent.Name == name).ShortDescription;
+        }
 
         private void WriteInJson()
         {

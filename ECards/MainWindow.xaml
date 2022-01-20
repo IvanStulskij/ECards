@@ -4,18 +4,38 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ECards"
+        xmlns:vm="clr-namespace:ECards.ViewModels"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.DataContext>
+        <vm:ECardsViewModel></vm:ECardsViewModel>
+    </Window.DataContext>
     <Grid>
-        <DataGrid HorizontalAlignment="Left" Height="235" Margin="10,10,0,0" VerticalAlignment="Top" Width="260"/>
+        <DataGrid
+            Name="Events"
+            ItemsSource="{Binding Events}"
+            SelectedItem="{Binding SelectedItem}"
+            HorizontalAlignment="Left" 
+            Height="235"
+            Margin="10,10,0,0"
+            VerticalAlignment="Top"
+            Width="260"/>
         <Image x:Name="EventImage" HorizontalAlignment="Left" Height="235" Margin="365,10,0,0" VerticalAlignment="Top" Width="320"/>
-        <RichTextBox HorizontalAlignment="Left" Height="134" Margin="10,275,0,0" VerticalAlignment="Top" Width="335">
+        <RichTextBox HorizontalAlignment="Left" Height="109" Margin="10,300,0,0" VerticalAlignment="Top" Width="335">
             <FlowDocument>
                 <Paragraph>
-                    <Run Text=""/>
+                    <Run Text="{Binding ShortDescription}"/>
                 </Paragraph>
             </FlowDocument>
         </RichTextBox>
+        <Button
+            Command="{Binding Remove}"
+            CommandParameter="{Binding SelectedItem.Name}"
+            Content="Remove"
+            HorizontalAlignment="Left"
+            Margin="10,250,0,0"
+            VerticalAlignment="Top" Width="75">
+        </Button>
 
     </Grid>
 </Window>
