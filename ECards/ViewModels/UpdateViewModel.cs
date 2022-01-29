@@ -8,7 +8,12 @@ namespace ECards.ViewModels
 {
     public class UpdateViewModel : DataViewModel
     {
-        private ServiceCards _serviceCards = new ServiceCards(Pathes.Directory + "Events.json");
+        private readonly ServiceCards _serviceCards;
+
+        public UpdateViewModel(ServiceCards serviceCards)
+        {
+            _serviceCards = serviceCards;
+        }
 
         private RelayCommand<Tuple<string, DateTime, DateTime, string, string>> _update;
         public RelayCommand<Tuple<string, DateTime, DateTime, string, string>> Update
@@ -19,8 +24,8 @@ namespace ECards.ViewModels
                 {
                     return new RelayCommand<Tuple<string, DateTime, DateTime, string, string>>(dataToAdd =>
                     {
-                        _serviceCards.Update(dataToAdd.Item1,
-                            new Event(dataToAdd.Item1, dataToAdd.Item2, dataToAdd.Item3, dataToAdd.Item4, dataToAdd.Item5));
+                        /*_serviceCards.Update(dataToAdd.Item1,
+                            new Event(dataToAdd.Item1, dataToAdd.Item2, dataToAdd.Item3, dataToAdd.Item4, dataToAdd.Item5));*/
                     });
                 }
 

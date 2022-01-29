@@ -1,5 +1,4 @@
 ﻿using System;
-using ECards.GlobalConstants;
 using ECardsLibFramework.Entities;
 using ECardsLibFramework.Services;
 using GalaSoft.MvvmLight.Command;
@@ -8,7 +7,12 @@ namespace ECards.ViewModels
 {
     public class AddingViewModel : DataViewModel
     {
-        private readonly ServiceCards _serviceCards = new ServiceCards(Pathes.Directory + "Events.json");
+        private readonly ServiceCards _serviceCards;
+
+        public AddingViewModel(ServiceCards serviceCards)
+        {
+            _serviceCards = serviceCards;
+        }
 
         private RelayCommand<Tuple<string, DateTime, DateTime, string, string>> _add;
         public RelayCommand<Tuple<string, DateTime, DateTime, string, string>> Add

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel;
 using System.Linq;
+using ECardsLibFramework.Files;
+using ECardsLibFramework.Source;
 
 namespace ECardsLibFramework.Services
 {
@@ -11,13 +13,17 @@ namespace ECardsLibFramework.Services
     public class ServiceCards : IServiceCards
     {
         private readonly string _path;
+        private readonly ISource _source;
         private readonly HashSet<Event> _events = new HashSet<Event>();
         
-        public ServiceCards(string path)
+        public ServiceCards(IPath path, ISource source)
         {
-            _path = path;
+            _path = path.Path;
+            _source = source;
             _events = GetEvents();
         }
+
+        //public HashSet<Event> Events => _events;
 
         public HashSet<Event> GetEvents()
         {
@@ -59,8 +65,9 @@ namespace ECardsLibFramework.Services
 
         public void Update(string eventNameToUpdate, Event newData)
         {
-            Remove(eventNameToUpdate);
-            Add(newData);
+            Event eventToUpdate = _events.FirstOrDefault(historyEvent => historyEvent.Name == eventNameToUpdate);
+            eventToUpdate = newData;
+            WriteInJson();
         }
         
         public string GetDescription(string name)
@@ -72,6 +79,7 @@ namespace ECardsLibFramework.Services
         {
             return directoryName + @"\" + _events.FirstOrDefault(historyEvent => historyEvent.Name == name).PicturePath;
         }
+
         public Event ConvertToEvent(EventView view)
         {
             if (view == null)
